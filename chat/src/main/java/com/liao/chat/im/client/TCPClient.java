@@ -16,7 +16,7 @@ public class TCPClient {
 
     public static void main(String[] args) throws IOException {
 
-        Socket socket = new Socket("127.0.0.1", 8000);
+        Socket socket = new Socket("127.0.0.1", 9000);
         InputStream in = socket.getInputStream();
         OutputStream out = socket.getOutputStream();
         Runnable readFun = () ->

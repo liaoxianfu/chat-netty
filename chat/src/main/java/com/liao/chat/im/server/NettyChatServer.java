@@ -2,6 +2,7 @@ package com.liao.chat.im.server;
 
 
 import com.liao.chat.handler.EchoHandler;
+import com.liao.chat.handler.LoginHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -9,11 +10,15 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * 使用Netty实现的聊天服务
  */
 @Slf4j
+@Component
+@ConfigurationProperties("netty.chat.server")
 public class NettyChatServer implements ChatServer {
 
     private int port = 8000;
@@ -23,8 +28,9 @@ public class NettyChatServer implements ChatServer {
     NioEventLoopGroup workGroup;
 
 
-    public void setPort(int port) {
+    public void setPort(Integer port) {
         // 进行判断
+        log.debug("设置的netty chat server 端口为{}", port);
         if (port < 0 || port > 65535) throw new RuntimeException("端口的范围必须在1-65535内");
         this.port = port;
     }
@@ -44,7 +50,7 @@ public class NettyChatServer implements ChatServer {
         bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(new EchoHandler());
+                ch.pipeline().addLast(new LoginHandler(),new EchoHandler());
             }
         });
         ChannelFuture future = bootstrap.bind().sync();

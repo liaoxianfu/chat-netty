@@ -1,0 +1,7 @@
+netty:
+  chat:
+    server:
+      port: 9000
+logging:
+  level:
+    com.liao.chat: debug
