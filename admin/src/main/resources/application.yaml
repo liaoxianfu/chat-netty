@@ -1,0 +1,9 @@
+logging:
+  level:
+    com.liao: debug
+springdoc:
+  api-docs:
+    path: /swagger-ui.html
+
+
+# springdoc.swagger-ui.path=/swagger-ui.html
