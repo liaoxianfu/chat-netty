@@ -5,5 +5,7 @@ springdoc:
   api-docs:
     path: /swagger-ui.html
 
-
+spring:
+  profiles:
+    active: dev
 # springdoc.swagger-ui.path=/swagger-ui.html
